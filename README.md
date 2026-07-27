@@ -11,6 +11,7 @@ Machine-specific content lives in `local/` (gitignored).
 - There are no guarantees that these skills/prompts are the best way for you to work. You may use them as a starting point and adapt as needed.
 - **Always fully read a skill or prompt before using it — do not assume it is correct or complete**.
 
+**Upon completion reloading VSCode is needed to apply the updated skills/prompts**
 ---
 
 ## Structure
@@ -87,21 +88,23 @@ agents/
 
 Add the following to your workspace `.code-workspace` file's `"settings"` block.
 Adjust paths to match where you cloned this repo.
+Code > Preferences > Settings > WorkSpace > "Chat" open link `edit in settings.json`.
+**Adjust path as needed to point to the agents repo**
 
 ```json
 "chat.instructionsFilesLocations": {
-    "~/path/to/agents/global/copilot-instructions.md": true
+    "~/Websites/agents/global/copilot-instructions.md": true
 },
 "chat.agentSkillsLocations": {
-    "~/path/to/agents/skills": true,
-    "~/path/to/agents/local/skills": true
+    "~/Websites/agents/skills": true,
+    "~/Websites/agents/local/skills": true
 },
 "chat.promptFilesLocations": {
-    "~/path/to/agents/prompts": true,
-    "~/path/to/agents/local/prompts": true
+    "~/Websites/agents/prompts": true,
+    "~/Websites/agents/local/prompts": true
 },
 "chat.agentFilesLocations": {
-    "~/path/to/agents": true
+    "~/Websites/agents": true
 }
 ```
 
@@ -109,15 +112,11 @@ Adjust paths to match where you cloned this repo.
 
 To apply base instructions even when working outside your main workspace, add the
 instructions entry to your active VS Code profile's `settings.json`:
-
-```bash
-# Find your active profile ID
-ls ~/Library/Application\ Support/Code/User/profiles/
-```
+Code > Preferences > Settings > User > "Chat" open link `edit in settings.json`.
 
 ```json
 "chat.instructionsFilesLocations": {
-    "~/path/to/agents/global/copilot-instructions.md": true
+    "~/Websites/agents/global/copilot-instructions.md": true
 }
 ```
 
@@ -136,23 +135,28 @@ applied before any message. A fresh chat session is required after first configu
 ### 1. Clone and open
 
 Clone this repo and add it as a folder in your `.code-workspace` file:
+**Critical: examples assume your agents repo is ~/Websites/agents/**
 
 ```json
-{ "name": "Agents", "path": "path/to/agents" }
+{
+    "name": "Agents",
+    "path": "Websites/agents"
+}
 ```
 
 ### 2. Add workspace settings
 
 Copy the four `chat.*` settings above into the `"settings"` block of your workspace file,
 updating the paths to match your local clone location.
+(local is gitignored and will not show as changes as you add custom project skills/prompts)
 
 ### 3. Create `local/` directories
 
 ```bash
-mkdir -p ~/path/to/agents/local/prompts
-mkdir -p ~/path/to/agents/local/skills
-mkdir -p ~/path/to/agents/local/pull-requests
-mkdir -p ~/path/to/agents/local/plans
+mkdir -p ~/Websites/agents/local/prompts
+mkdir -p ~/Websites/agents/local/skills
+mkdir -p ~/Websites/agents/local/pull-requests
+mkdir -p ~/Websites/agents/local/plans
 ```
 
 ### 4. Add machine-specific project prompts
@@ -168,7 +172,7 @@ local/prompts/my-project.prompt.md   →  /my-project
 The `agents` repo is identical on every machine. Only `local/` content differs:
 - Add project prompts relevant to that machine's projects
 - Add domain knowledge skills relevant to that machine's work
-- Workspace and profile settings point to the same `~/path/to/agents/` path
+- Workspace and profile settings point to the same `~/Websites/agents/` path
 
 ---
 
