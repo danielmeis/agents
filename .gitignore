@@ -1,1 +1,7 @@
+# ignore all files starting with .
+.*
+
+# Track this file .gitignore (i.e. do NOT ignore it)
+!.gitignore
+
 local/
