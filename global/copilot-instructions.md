@@ -124,6 +124,16 @@ The goal is clarity, not completeness. A reader should understand the *why* and 
 - Use consistent versions of shared tools (ESLint, TypeScript, Prettier)
 - When fixing issues, check if similar code exists in other projects
 
+### Directory Scanning & Exploration
+When exploring or scanning the workspace, **always skip `node_modules/` and `vendor/` directories by default.** These dependency trees contain thousands of files that are not part of the codebase we have built and will waste time, inflate context, and obscure relevant code.
+
+- **Default behavior:** Exclude `node_modules/`, `vendor/`, and any nested copies of these directories from all scans, searches, and directory listings unless explicitly necessary.
+- **When a specific dependency must be inspected** (e.g., to understand an API, trace a bug, or verify a behavior): look up only that package directly — do not traverse the full dependency tree or read unrelated packages.
+- **Sub-dependencies** (packages required by packages) should never be read speculatively. Only inspect them if there is a concrete reason tied to the current task.
+- Apply the same principle to other large generated or third-party directories: `dist/`, `build/`, `.git/`, `Pods/`, `__pycache__/`, etc. — prefer source over build artifacts.
+
+---
+
 ### WordPress-Specific Validation
 - **PHP:** Follow WordPress Coding Standards (use phpcs if available)
 - **Gutenberg blocks:** Test in block editor before committing
@@ -239,5 +249,5 @@ Load a project skill at the start of a session (e.g., `/myprojectskill`). Projec
 
 ---
 
-*Last Updated: 2026-07-24*
-*Version: 3.0.0*
+*Last Updated: 2026-07-28*
+*Version: 3.1.0*
