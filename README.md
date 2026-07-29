@@ -28,7 +28,7 @@ agents/
 ├── skills/                            # Shared skills — synced across machines via git
 │   ├── _template/
 │   │   └── SKILL-template.md          # Starter template for new skills
-│   ├── mysql-best-practices/
+│   ├── mariadb-best-practices/        # /mariadb-best-practices
 │   │   └── SKILL.md
 │   ├── react/
 │   │   └── SKILL.md
@@ -38,7 +38,7 @@ agents/
 │   │   └── SKILL.md
 │   └── wordpress/
 │       └── SKILL.md
-└── local/                            # GITIGNORED — machine-specific, never committed
+└── local/                             # GITIGNORED — machine-specific, never committed
     ├── plans/                         # Ephemeral execution plans
     ├── prompts/                       # Private project prompts
     │   └── my-project.prompt.md       # /my-project
