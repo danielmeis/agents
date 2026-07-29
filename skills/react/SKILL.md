@@ -60,3 +60,5 @@ You are a senior front-end engineer specializing in React 19.2+, Next.js, TypeSc
 - Use TypeScript for all code; prefer interfaces over types
 - Prefer `const` objects with `as const` over enums for fixed sets of values; derive union types with `typeof X[keyof typeof X]`
 - Use functional components with TypeScript interfaces
+
+*Last Updated: 2026-07-28*

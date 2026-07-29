@@ -121,7 +121,7 @@ Attempt to place items into the appropriate sections based on their description 
 
 **Example:**
 ```
-[[ Prod - 12567 ]](https://{subdomain}.atlassian.net/browse/PROD-12567) -- Bump handlebars from 4.7.8 to 4.7.9 in /wp-content/themes/st_refresh (automated) in https://github.com/[path]
+[[ Prod - 12567 ]](https://{subdomain}.atlassian.net/browse/PROD-12567) -- Bump handlebars from 4.7.8 to 4.7.9 in /wp-content/themes/my_theme (automated) in https://github.com/[path]
 ```
 
 #### Step 8: Preserve Full Changelog URL
@@ -183,3 +183,5 @@ Keep the **Full Changelog** URL unchanged at the end of the release notes. Do no
 - Reordering bug fixes is done manually after initial formatting
 - The Full Changelog URL should never be modified
 - Each item should be on its own line
+
+*Last Updated: 2026-07-28*

@@ -19,3 +19,5 @@ Describe the approach, with code examples where helpful.
 
 ## Common Pitfalls
 What to avoid and why.
+
+*Last Updated: YYYY-MM-DD*

@@ -184,3 +184,4 @@ The `agents` repo is identical on every machine. Only `local/` content differs:
 /ticket-writing    ← write a ticket as Project Manager, Product Owner, or QA
 /release-notes     ← format GitHub release notes
 ```
+*Last Updated: 2026-07-28*

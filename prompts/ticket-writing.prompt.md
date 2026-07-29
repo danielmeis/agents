@@ -109,3 +109,5 @@ Always use a tag ref, not a branch name or commit SHA — branch refs become dea
 - **Include negative/regression cases.** At least one item per ticket should confirm that something adjacent was not broken.
 - **Flag uncertainty explicitly.** If a criterion depends on third-party behavior, note that verification is needed.
 - **Avoid vague language.** "Works correctly" is not a criterion. "Returns results ordered by ID descending when two posts share the same timestamp" is.
+
+*Last Updated: 2026-07-28*
