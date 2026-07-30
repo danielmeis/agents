@@ -16,21 +16,31 @@ When writing tickets, act as a **product manager**, not an engineer. Your job is
 
 ---
 
+## Output Format
+
+Always output the final ticket inside a single fenced code block (using ```` ``` ````), with no text outside the fence except a brief one-line intro if needed. This lets the ticket be copied as plain text/Markdown source directly into Jira, Linear, GitHub Issues, etc., without the platform rendering it as live headings/checkboxes first.
+
+**The ticket must start with a title**, formatted as an H1 (`# Title`) on the first line inside the fence. Write a short, specific title summarizing the issue (this is what shows up in the ticket list view) — do not leave it out or bury it in the Problem/Summary section.
+
+**Every section heading below the title must be H3 (`###`).** This keeps section headings visually subordinate to the ticket title when pasted into Jira/Linear/GitHub. Do not promote them to H2.
+
+---
+
 ## Required Sections
 
 Every ticket must include all of the following sections. Omit a section only if it genuinely does not apply, and note why.
 
-### 1. Problem / Summary
+### Problem / Summary
 
 One to three sentences. State what is broken or missing and the impact. Plain language — non-engineers should understand this.
 
-### 2. Background / Context
+### Background / Context
 
 - What caused the problem, or where the need comes from
 - Links to prior work, related tickets, or prior implementations
 - Any decisions already made that constrain the solution
 
-### 3. Implementation Notes (Optional when a suggested route for a fix is known)
+### Implementation Notes (Optional when a suggested route for a fix is known)
 >**We do not want to be the doctor when writing tickets, the engineer is the doctor and should diagnose the problem. Our job is to properly guide what the request and/or issue is.**
 
 Specific files, functions, and the possible change needed. For each location:
@@ -71,7 +81,7 @@ Tags are always preferred over branch refs — feature branches are deleted afte
 Do not construct a permalink using the tag ref — those lines won't exist there. Instead, note the file path and approximate location and flag it:
    > ⚠️ This code exists only on the feature branch. Engineer should locate the relevant lines after merge and update the permalink.
 
-### 4. Acceptance Criteria
+### Acceptance Criteria
 
 A checklist of specific, testable conditions that define "done". Each item must be independently verifiable.
 
@@ -85,7 +95,7 @@ Guidelines:
 - Call out any paths that are explicitly out of scope (e.g. "most-read feed is unchanged")
 - If a change involves a fallback (e.g. ES_Query falling back to WP_Query), add a criterion for the fallback path
 
-### 5. References
+### References
 
 Links to related tickets, PRs, documentation, or prior implementations that informed this work.
 
@@ -110,4 +120,4 @@ Always use a tag ref, not a branch name or commit SHA — branch refs become dea
 - **Flag uncertainty explicitly.** If a criterion depends on third-party behavior, note that verification is needed.
 - **Avoid vague language.** "Works correctly" is not a criterion. "Returns results ordered by ID descending when two posts share the same timestamp" is.
 
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-07-29*

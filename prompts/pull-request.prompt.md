@@ -62,30 +62,30 @@ When writing Pull Requests, structure them to be clear for both technical and no
 
 ## Required Sections
 
-1. **Overview** (# heading)
+1. **Overview** (## heading)
    - Brief summary of what changed at a high level (1-2 sentences)
    - Focus on the primary update or feature
    - Use plain language that non-developers can understand
 
-2. **Problem** (# heading)
+2. **Problem** (## heading)
    - Clearly state the issue or limitation being addressed
    - Explain the impact on users or business
    - Describe what wasn't working or what was missing
 
-3. **Product Notes** (# heading - OPTIONAL)
+3. **Product Notes** (## heading - OPTIONAL)
    - Include relevant context about product decisions
    - Document trade-offs or considerations
    - Explain why certain approaches were chosen
    - Note any stakeholder feedback or requirements
 
-4. **Solution** (# heading)
+4. **Solution** (## heading)
    - Explain the approach taken to solve the problem
    - Highlight user-facing benefits and improvements
    - Keep technical jargon to a minimum or explain terms
    - Use bullet points with proper Markdown syntax (`-`)
    - Each bullet should have a clear label followed by description
 
-5. **Testing & Validation** (# heading)
+5. **Testing & Validation** (## heading)
    - Provide specific instructions on how to test the work
    - Include step-by-step testing scenarios with expected results
    - List any test data, credentials, or setup required
@@ -94,20 +94,20 @@ When writing Pull Requests, structure them to be clear for both technical and no
    - Reference automated test coverage if applicable
    - Note any environment-specific testing requirements
 
-6. **Technical Improvements** (# heading) (Optional)
+6. **Technical Improvements** (## heading) (Optional)
    - Optional section for code quality, performance, or architectural improvements
    - Detail refactoring, dependency updates, or migration work
-   - Use subheadings (`##` heading) to group related improvements
+   - Use subheadings (`###` heading) to group related improvements
    - Use bullet points with labels for each improvement
    - Mention test coverage changes, build improvements, or tooling updates
    - **EXCLUDE internal documentation changes** (like copilot-instructions updates) unless they directly impact developers' workflow
 
 ## Formatting Requirements
 
-- **USE ACTUAL MARKDOWN SYNTAX** - output `#` for H1, `##` for H2, `-` for bullets
+- **USE ACTUAL MARKDOWN SYNTAX** - output `##` for H2, `###` for H3, `-` for bullets
 - Do NOT say "Use Markdown headings" - actually output the `#` symbols
-- Primary sections use `#` (H1): Overview, Problem, Product Notes, Solution, Testing & Validation, Technical Improvements
-- Subsections use `##` (H2): Enhanced User Experience, Code Quality & Testing, etc.
+- Primary sections use `##` (H2): Overview, Problem, Product Notes, Solution, Testing & Validation, Technical Improvements
+- Subsections use `###` (H3): Enhanced User Experience, Code Quality & Testing, etc.
 - Bullet points use `-` at the start of each line
 - Each bullet should have format: `- Label: Description`
 - Keep paragraphs short (2-4 sentences max)
@@ -117,45 +117,45 @@ When writing Pull Requests, structure them to be clear for both technical and no
 ## Example Structure
 
 ```markdown
-# Overview
+## Overview
 Brief description of the primary change.
 
-# Problem
+## Problem
 What wasn't working and why it mattered.
 
-# Product Notes
+## Product Notes
 (Optional) Context about product decisions or trade-offs.
 
-# Solution
+## Solution
 How we addressed the problem:
 
 - Feature A: Description
 - Feature B: Description
 
-# Testing & Validation
+## Testing & Validation
 
-## Manual Testing Steps
+### Manual Testing Steps
 1. Navigate to [specific page/feature]
 2. Perform [specific action]
 3. Verify [expected result]
 
-## Test Scenarios
+### Test Scenarios
 * Scenario 1: Description and expected outcome
 * Scenario 2: Description and expected outcome
 * Edge Case: Description and how it was handled
 
-## Automated Tests
+### Automated Tests
 * Unit tests: Added 15 tests covering new validation logic
 * Integration tests: 3 new tests for API endpoints
 * Coverage: Increased from 78% to 85%
 
-# Technical Improvements
+## Technical Improvements
 (Optional)
 
-## Code Quality
+### Code Quality
 * Refactoring: Extracted common logic into reusable service
 
-## Performance
+### Performance
 * Database: Added indexes on frequently queried columns
 ```
 
@@ -201,19 +201,19 @@ In addition to the standard sections, add repository-specific sectionsand an **I
 ```markdown
 ---
 
-# Implementation Checklist
+## Implementation Checklist
 
-## Repository A
+### Repository A
 - [ ] Copy specific changes from research branch
 - [ ] File: `src/components/Feature.tsx` lines 45-120
 - [ ] Build/test steps
 
-## Repository B
+### Repository B
 - [ ] Copy specific changes from feature branch
 - [ ] File: `api/routes/feature.js` lines 23-67
 - [ ] Build/test steps
 
-## Post-Deployment
+### Post-Deployment
 - [ ] Verify feature in staging
 - [ ] Run smoke tests
 - [ ] Monitor logs for errors
@@ -221,4 +221,4 @@ In addition to the standard sections, add repository-specific sectionsand an **I
 
 ---
 
-*Last Updated: 2026-05-01*
+*Last Updated: 2026-07-29*
