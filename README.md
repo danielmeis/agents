@@ -28,9 +28,13 @@ agents/
 ├── skills/                            # Shared skills — synced across machines via git
 │   ├── _template/
 │   │   └── SKILL-template.md          # Starter template for new skills
-│   ├── mariadb-best-practices/        # /mariadb-best-practices
+│   ├── mariadb/
+│   │   └── SKILL.md
+│   ├── nextjs/
 │   │   └── SKILL.md
 │   ├── react/
+│   │   └── SKILL.md
+│   ├── redis/
 │   │   └── SKILL.md
 │   ├── security-best-practices/
 │   │   └── SKILL.md
