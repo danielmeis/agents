@@ -1,5 +1,5 @@
 ---
-name: mariadb-best-practices
+name: mariadb
 description: >
   MariaDB 10.11+ best practices for schema design, security hardening, query
   optimization, WordPress scaling, and database administration. Use this skill
