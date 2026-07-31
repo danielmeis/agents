@@ -38,6 +38,8 @@ agents/
 │   │   └── SKILL.md
 │   ├── security-best-practices/
 │   │   └── SKILL.md
+│   ├── socketio/
+│   │   └── SKILL.md
 │   ├── typescript/
 │   │   └── SKILL.md
 │   └── wordpress/
