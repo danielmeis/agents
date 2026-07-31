@@ -100,6 +100,13 @@ The goal is clarity, not completeness. A reader should understand the *why* and 
 - Use test fixtures and factories for complex data setup
 - Mock external dependencies (APIs, databases) in unit tests
 
+### Root Cause Communication
+When a bug's cause was unknown at the start of a session, once it's located, state it directly in chat before or alongside implementing the fix — don't let it stay buried in code comments or diffs.
+- **What caused it, in plain English:** Explain the mechanism for a human, not just the code — write it so it can be dropped into a code review or handed to QA as-is, not just understood by another engineer reading the diff.
+- **How to reproduce it:** Give concrete, actionable repro steps — which conditions trigger it, which endpoint/page/action to exercise, what to look for — so QA can independently confirm the failure exists pre-fix and is resolved post-fix.
+- **Scope of impact:** State whether the bug is narrow (one specific record/config) or systemic (any input matching a certain condition), so QA knows how broadly to test.
+This does not apply to trivial or already-understood fixes — only when the root cause had to be genuinely diagnosed during the conversation.
+
 ### Version Control & AI Agent Workflow
 - **Git Commits:** AI/Copilot agents should NEVER create git commits automatically. All work done by AI must be verified and approved by the developer before committing.
 - **Code Review:** All AI-generated code changes must be reviewed, tested, and validated before being committed to version control.
@@ -249,5 +256,5 @@ Load a project skill at the start of a session (e.g., `/myprojectskill`). Projec
 
 ---
 
-*Last Updated: 2026-07-28*
-*Version: 3.1.0*
+*Last Updated: 2026-07-31*
+*Version: 3.2.0*
