@@ -247,4 +247,4 @@ async function getProduct(id: string) {
 // that doesn't need its own unit test (integration/e2e tests cover it)
 ```
 
-*Last Updated: 2026-07-30*
+*Last Updated: 2026-07-31*

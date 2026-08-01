@@ -648,4 +648,4 @@ Load these when the task goes deeper than the summaries above:
 > Socket.IO's Redis adapter (`@socket.io/redis-adapter`): see the **socket.io**
 > skill, not this one.
 
-*Last Updated: 2026-07-30*
+*Last Updated: 2026-07-31*

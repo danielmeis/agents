@@ -241,4 +241,4 @@ await client.bitOp('AND', 'active-both-days', [
 const bothDaysCount = await client.bitCount('active-both-days');
 ```
 
-*Last Updated: 2026-07-30*
+*Last Updated: 2026-07-31*
