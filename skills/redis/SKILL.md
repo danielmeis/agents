@@ -195,8 +195,9 @@ await client.set('cache:product:42', JSON.stringify(product), { EX: 3600 });
 
 ```ts
 // Pipelining — batch commands for network efficiency, NOT atomic
-// node-redis auto-pipelines commands issued in the same tick, but you can
-// be explicit for clarity and guaranteed batching:
+// node-redis auto-pipelines commands issued in the same tick (implicit,
+// no code change needed). `multi().execAsPipeline()` is a SEPARATE, explicit
+// mechanism for when you want a guaranteed batch outside of MULTI/EXEC:
 const results = await client
   .multi()
   .set('a', '1')
@@ -321,8 +322,8 @@ const result = await client.eval(script, {
 });
 
 // Reusable scripts — define once, call by name
-const myScript = client.scriptLoad(script);
-// Then: await client.evalSha(sha, { keys: [...], arguments: [...] });
+const sha = await client.scriptLoad(script);
+await client.evalSha(sha, { keys: ['lock:resource:1'], arguments: ['locked'] });
 ```
 
 ---

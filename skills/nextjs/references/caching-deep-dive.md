@@ -191,7 +191,7 @@ export const cacheTags = {
 
 | Content type | Suggested profile | Reasoning |
 |---|---|---|
-| Marketing/landing pages | `'max'` or `{ expire: false }`-equivalent long TTL | Rarely changes, safe to cache aggressively |
+| Marketing/landing pages | `'max'` or a custom profile with a very large `expire` | Rarely changes, safe to cache aggressively |
 | Blog posts, docs | `'days'` + `cacheTag` per post | Long-lived, invalidate explicitly on publish/edit |
 | Product catalog | `'hours'` + `cacheTag` per category | Balance freshness against origin load |
 | Pricing/inventory | `'minutes'` or custom `{ stale: 60, revalidate: 300 }` | Changes frequently, staleness has real cost |
@@ -201,10 +201,12 @@ export const cacheTags = {
 ```ts
 // Centralize these as named profiles in next.config.ts so the whole team
 // uses consistent, documented values instead of ad hoc inline objects
+// Note: `expire` is a number of seconds, not a boolean — there's no
+// literal "never" value, so marketing content uses a very large number instead
 const nextConfig: NextConfig = {
   cacheComponents: true,
   cacheLife: {
-    marketing:  { stale: 86400,  revalidate: 604800, expire: false },
+    marketing:  { stale: 86400,  revalidate: 604800, expire: 31536000 }, // ~1 year
     blog:       { stale: 3600,   revalidate: 86400,  expire: 2592000 },
     catalog:    { stale: 300,    revalidate: 3600,    expire: 86400 },
     pricing:    { stale: 60,     revalidate: 300,      expire: 3600 },

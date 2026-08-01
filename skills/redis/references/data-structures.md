@@ -34,7 +34,8 @@ const ttls = await client.hTTL('user:1', ['otpCode', 'sessionToken']);
 await client.hPersist('user:1', ['sessionToken']);
 
 // Set expiration only if field has no existing TTL
-await client.hExpire('user:1', ['otpCode'], 300, { condition: 'NX' });
+// mode is a plain string argument (NX/XX/GT/LT), not an options object
+await client.hExpire('user:1', ['otpCode'], 300, 'NX');
 
 // Practical use case: OTP codes and session tokens colocated with profile
 // data, each with independent lifetimes, without needing separate keys

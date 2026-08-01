@@ -207,6 +207,13 @@ export default function Loading() {
 
 ## View Transitions (React 19.2, via Next.js 16.2+)
 
+> Unverified against a stable release as of this writing: `ViewTransition`
+> is not present in the public exports of `react@19.2.7` or `react-dom@19.2.7`
+> (checked directly against `node_modules` — no `ViewTransition` or
+> `unstable_ViewTransition` export exists in either package at that version).
+> Confirm the export exists in your installed `react` version before using
+> this pattern — it may still be canary-only.
+
 ```tsx
 'use client';
 import { unstable_ViewTransition as ViewTransition } from 'react';

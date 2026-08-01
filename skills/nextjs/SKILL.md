@@ -197,14 +197,14 @@ export const config = {
 
 ```ts
 // BAD: heavy auth logic in proxy.ts — the anti-pattern that caused CVE-2025-29927
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const session = await validateJWTAgainstDatabase(request); // ❌ never do this here
   if (!session) return NextResponse.redirect(new URL('/login', request.url));
 }
 
 // GOOD: cheap presence check only; real validation happens deeper in the stack
 export function proxy(request: NextRequest) {
-  const hasCookie = request.cookies.has('session'); // ❌ cheap check, not real auth
+  const hasCookie = request.cookies.has('session'); // cheap check, not real auth
   if (!hasCookie) return NextResponse.redirect(new URL('/login', request.url));
   return NextResponse.next();
 }
@@ -363,7 +363,9 @@ import { revalidateTag } from 'next/cache';
 export async function updateProduct(id: string, data: ProductInput) {
   await db.products.update({ where: { id }, data });
 
-  // revalidateTag REQUIRES a second argument in 16.2+ — a cacheLife profile
+  // revalidateTag REQUIRES a second argument in 16.2+: either a named
+  // cacheLife profile string ('max', 'hours', ...) or a { expire } object —
+  // note the object form ONLY accepts `expire`, not `stale`/`revalidate`.
   // The single-argument form is deprecated and produces a TypeScript error
   revalidateTag(`product-${id}`, 'max'); // 'max' recommended for most cases —
                                           // enables background (stale-while-revalidate) refresh
