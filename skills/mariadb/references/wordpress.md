@@ -84,11 +84,20 @@ ALTER TABLE wp_posts
     ALGORITHM=INPLACE, LOCK=NONE;
 
 -- wp_postmeta (the single biggest win on large sites)
+-- NOTE: WP core already ships `KEY meta_key (meta_key(191))` and `KEY post_id
+-- (post_id)`. Check `SHOW INDEX FROM wp_postmeta` before adding this — it's
+-- only worth the extra write overhead if you actually query on meta_value.
 ALTER TABLE wp_postmeta
     ADD INDEX IF NOT EXISTS idx_meta_key_value (meta_key, meta_value(100)),
     ALGORITHM=INPLACE, LOCK=NONE;
 
 -- wp_options (fixes full-table-scan on every page load)
+-- NOTE: WordPress 6.6+ already ships an index on `autoload` and expanded its
+-- values beyond yes/no. Run `SHOW INDEX FROM wp_options` first — don't add a
+-- duplicate. Also, a single-column index on a 2-3 value column has low
+-- cardinality; the optimizer may still choose a full table scan over it when
+-- most rows are autoload='yes'. Cleaning up autoload bloat (Step 3) matters
+-- more than the index itself.
 ALTER TABLE wp_options
     ADD INDEX IF NOT EXISTS idx_autoload (autoload),
     ALGORITHM=INPLACE, LOCK=NONE;
@@ -153,18 +162,31 @@ AND autoload = 'yes';
 ```sql
 -- Delete orphaned postmeta in 10,000-row batches
 -- Repeat until "0 rows affected"
-DELETE pm
-FROM wp_postmeta pm
-LEFT JOIN wp_posts p ON pm.post_id = p.ID
-WHERE p.ID IS NULL
-LIMIT 10000;
+-- NOTE: multi-table DELETE (DELETE t1 FROM t1 JOIN t2 ...) does NOT support
+-- LIMIT/ORDER BY in MariaDB/MySQL — it's a syntax error. Batch via a subquery
+-- against the single target table instead:
+DELETE FROM wp_postmeta
+WHERE meta_id IN (
+    SELECT meta_id FROM (
+        SELECT pm.meta_id
+        FROM wp_postmeta pm
+        LEFT JOIN wp_posts p ON pm.post_id = p.ID
+        WHERE p.ID IS NULL
+        LIMIT 10000
+    ) AS batch
+);
 
 -- Orphaned commentmeta
-DELETE cm
-FROM wp_commentmeta cm
-LEFT JOIN wp_comments c ON cm.comment_id = c.comment_ID
-WHERE c.comment_ID IS NULL
-LIMIT 10000;
+DELETE FROM wp_commentmeta
+WHERE meta_id IN (
+    SELECT meta_id FROM (
+        SELECT cm.meta_id
+        FROM wp_commentmeta cm
+        LEFT JOIN wp_comments c ON cm.comment_id = c.comment_ID
+        WHERE c.comment_ID IS NULL
+        LIMIT 10000
+    ) AS batch
+);
 
 -- Post revisions older than 90 days (set WP_POST_REVISIONS = 3 in wp-config.php first)
 DELETE FROM wp_posts
@@ -179,11 +201,16 @@ WHERE (comment_approved = 'spam' OR comment_approved = 'trash')
 LIMIT 10000;
 
 -- Orphaned commentmeta from deleted comments (run after above)
-DELETE cm
-FROM wp_commentmeta cm
-LEFT JOIN wp_comments c ON cm.comment_id = c.comment_ID
-WHERE c.comment_ID IS NULL
-LIMIT 10000;
+DELETE FROM wp_commentmeta
+WHERE meta_id IN (
+    SELECT meta_id FROM (
+        SELECT cm.meta_id
+        FROM wp_commentmeta cm
+        LEFT JOIN wp_comments c ON cm.comment_id = c.comment_ID
+        WHERE c.comment_ID IS NULL
+        LIMIT 10000
+    ) AS batch
+);
 ```
 
 ---
@@ -245,7 +272,10 @@ GROUP BY meta_key
 ORDER BY total_kb DESC
 LIMIT 20;
 
--- Find queries not using indexes (requires slow query log)
+-- Find queries not using indexes (requires slow_query_log AND log_output=TABLE;
+-- the recommended config in references/config-and-admin.md uses FILE output,
+-- so this table will be empty unless you also set log_output=TABLE, or use
+-- mysqldumpslow/pt-query-digest against slow_query_log_file instead)
 SELECT * FROM mysql.slow_log
 WHERE sql_text NOT LIKE '%SLEEP%'
 ORDER BY query_time DESC

@@ -30,10 +30,10 @@ innodb_flush_neighbors        = 0        # 0 for SSD/NVMe; 1 for HDD
 # ── Aria (internal temp tables use Aria automatically) ─────────
 aria_pagecache_buffer_size = 256M
 
-# ── Query Cache (MariaDB only — still valuable for WordPress) ──
-query_cache_type  = 1
-query_cache_size  = 64M
-query_cache_limit = 2M
+# NOTE: the query cache still exists in MariaDB 10.11 but is disabled by
+# default and doesn't scale on multi-core/write-heavy hosts (single global
+# mutex, invalidated on every write). Leaving it unset/off and using a Redis
+# object cache in front of WordPress is the better fit at scale.
 
 # ── Connections & Threads ─────────────────────────────────────
 max_connections        = 200   # tune to actual peak + 20% headroom
@@ -92,8 +92,6 @@ character_set_server       = utf8mb4
 collation_server           = utf8mb4_unicode_ci
 innodb_buffer_pool_size    = 256M
 innodb_log_file_size       = 64M
-query_cache_type           = 1
-query_cache_size           = 32M
 max_connections            = 50
 tmp_memory_table_size      = 16M
 max_heap_table_size        = 16M
@@ -119,10 +117,6 @@ SELECT ROUND(
             (SELECT VARIABLE_VALUE FROM information_schema.GLOBAL_STATUS
              WHERE VARIABLE_NAME = 'Innodb_buffer_pool_read_requests'), 0)
     )) * 100, 2) AS buffer_pool_hit_pct;
-
--- Query cache hit rate (if enabled)
-SHOW GLOBAL STATUS LIKE 'Qcache%';
--- Qcache_hits / (Qcache_hits + Qcache_inserts) = hit rate
 
 -- Threads and connection pressure
 SHOW GLOBAL STATUS LIKE 'Threads_%';
@@ -203,6 +197,8 @@ mariadb-backup --backup \
 mariadb-backup --prepare --target-dir=/backups/2025-01-01_0200
 
 # Logical dump — smaller DBs, cross-version portability
+# (--set-gtid-purged is a MySQL-only mysqldump flag; mariadb-dump has no
+# equivalent, MariaDB's GTID implementation doesn't need it)
 mariadb-dump \
     --single-transaction \
     --quick \
@@ -210,7 +206,6 @@ mariadb-dump \
     --triggers \
     --events \
     --hex-blob \
-    --set-gtid-purged=OFF \
     wordpress_db | gzip > /backups/wp_$(date +%F).sql.gz
 
 # Always test restores — schedule a monthly restore drill to a separate instance
@@ -248,7 +243,7 @@ SHOW GLOBAL VARIABLES WHERE
 
 | Topic | MariaDB 10.11 | MySQL 8.0 |
 |-------|--------------|-----------|
-| Query cache | Available & beneficial | Removed |
+| Query cache | Exists, disabled by default; doesn't scale on multi-core | Removed in 8.0 |
 | Root auth | UNIX socket (no password) | Password required |
 | JSON storage | `LONGTEXT` with validation | Binary JSON type |
 | Native UUID type | Yes (10.7+) | No |

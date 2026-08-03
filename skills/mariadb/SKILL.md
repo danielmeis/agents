@@ -20,10 +20,10 @@ description: >
 
 ## Key MariaDB 10.11 Distinctions
 
-- **Query cache is still available** (removed in MySQL 8.0+). It benefits WordPress
-  and read-heavy workloads when tuned properly.
-- **Aria storage engine** ships natively — preferred for internal temp tables, and
-  4x faster than InnoDB for certain read/aggregate workloads.
+- **Query cache still exists in 10.11** but is **disabled by default** (`query_cache_type=OFF`) — it was never removed from MariaDB (unlike MySQL, which removed it in 8.0). Per MariaDB's own docs it "does not scale well in environments with high throughput on multi-core machines" because of a single global mutex that serializes cache access and gets invalidated on every write to a cached table. For a busy WordPress site (many cores, constant writes to `wp_options`/`wp_postmeta`), leave it off and use an application-level cache (Redis object cache) instead.
+- **Aria storage engine** ships natively — preferred for internal temp tables and
+  read-heavy non-transactional workloads. Benchmark for your workload rather than
+  assuming a fixed speedup multiplier.
 - **System-versioned tables** (temporal/history tables) are first-class citizens.
 - **Invisible columns** are supported (10.3+), useful for schema migration.
 - **INVISIBLE** index columns and **descending index** columns are supported.
@@ -31,7 +31,9 @@ description: >
 - **PUBLIC pseudo-role** (10.11): grants/revokes apply to all users at once.
 - **password_reuse_check plugin** (10.7+): prevents password reuse.
 - **ed25519 authentication plugin**: modern, more secure than `mysql_native_password`.
-- **GTID-based replication on by default** in 10.11.
+- **GTID support is on by default** in 10.11 (every transaction gets a GTID), but
+  replication itself is not automatic — you still configure it explicitly with
+  `CHANGE MASTER TO ... MASTER_USE_GTID=slave_pos`.
 - Root uses **UNIX socket authentication** by default since 10.4 — no root password
   is the secure default, not a misconfiguration.
 - **`mariadb-*` command aliases** (`mariadb-dump`, `mariadb-backup`) are preferred
@@ -122,8 +124,12 @@ INSTALL SONAME 'password_reuse_check';
 -- plugin_load_add = password_reuse_check
 -- password_reuse_check_interval = 365   # days before password can be reused
 
--- Check account expiry
-ALTER USER 'wp_app'@'127.0.0.1' PASSWORD EXPIRE INTERVAL 180 DAY;
+-- Password expiry is appropriate for human/DBA accounts, NOT for application
+-- service accounts like wp_app — there's no human to rotate the password, and
+-- WordPress will start throwing DB connection errors in production the moment
+-- it expires. Only apply PASSWORD EXPIRE if you have automated credential
+-- rotation wired into wp-config.php deployment.
+ALTER USER 'dba_readonly'@'localhost' PASSWORD EXPIRE INTERVAL 180 DAY;
 ```
 
 ### TLS / Encryption in Transit
@@ -152,6 +158,13 @@ require_secure_transport = ON
 tls_version = TLSv1.2,TLSv1.3
 ssl_cipher  = ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384
 ```
+
+> **WordPress caveat**: `require_secure_transport` only applies to TCP
+> connections, not UNIX sockets. If DB_HOST is `localhost`, PHP's mysqli talks
+> over the socket and is unaffected. But `127.0.0.1` (or any remote host) is a
+> TCP connection — enforcing this without also configuring `MYSQL_CLIENT_FLAGS`
+> / `mysqli_ssl_set()` (via a drop-in or `WP_CONFIG`) will break the site's DB
+> connection outright. Verify how `DB_HOST` is set before enabling this globally.
 
 ### Binary Log & At-Rest Encryption
 
@@ -260,10 +273,16 @@ Adding columns is instant and does not rebuild the table:
 
 ```sql
 -- This does NOT lock the table on MariaDB 10.3+ InnoDB
-ALTER TABLE wp_posts
-    ADD COLUMN custom_score TINYINT UNSIGNED NULL DEFAULT NULL,
+ALTER TABLE orders
+    ADD COLUMN loyalty_tier TINYINT UNSIGNED NULL DEFAULT NULL,
     ALGORITHM=INSTANT;
 ```
+
+> **WordPress caveat**: don't add custom columns to core `wp_*` tables (e.g.
+> `wp_posts`, `wp_options`). Core updates and plugins assume the stock schema,
+> and `dbDelta()` can drop columns it doesn't recognize during upgrades. Store
+> custom data in `postmeta`/`usermeta`/`options`, or create your own dedicated
+> table instead.
 
 ---
 
@@ -312,8 +331,11 @@ SET system_versioning_insert_history = ON;
 
 - Index columns used in `WHERE`, `JOIN`, `ORDER BY`, `GROUP BY`
 - Most selective column first in composite indexes
-- **Prefix indexes** required for `utf8mb4` columns > 191 chars in older InnoDB
-  row formats (use `ROW_FORMAT=DYNAMIC` to allow full 767-byte keys)
+- **Prefix indexes** required for `utf8mb4` columns beyond the index key-length
+  limit. `ROW_FORMAT=REDUNDANT`/`COMPACT` cap index prefixes at 767 bytes;
+  `ROW_FORMAT=DYNAMIC`/`COMPRESSED` (with `innodb_large_prefix`, default on)
+  raise that to 3072 bytes — enough to fully index a `VARCHAR(191)` utf8mb4
+  column without truncation
 - Descending index columns (10.11): `INDEX idx_date_desc (created_at DESC)`
 
 ```sql
@@ -437,11 +459,14 @@ LIMIT 20;
 
 Key principles at 1M+ posts:
 
-- **Indexes first**: `wp_postmeta (meta_key, meta_value(100))` and
-  `wp_options (autoload)` are the two highest-impact additions.
+- **Check existing indexes before adding new ones**: modern WordPress core
+  already ships `wp_postmeta (meta_key(191))` and, since 6.6, an index on
+  `wp_options (autoload)`. Run `SHOW INDEX` first — don't assume they're missing.
 - **Autoload payload < 800 KB**: every page load fetches all autoloaded rows.
   Audit with `SELECT ROUND(SUM(LENGTH(option_value))/1024,2) AS kb FROM wp_options WHERE autoload='yes'`.
-- **Delete in batches**: `LIMIT 10000` per DELETE pass to avoid long table locks.
+- **Delete in batches**: for single-table deletes, `LIMIT 10000` per pass avoids
+  long locks. Multi-table `DELETE ... JOIN` does **not** support `LIMIT` — batch
+  those with a subquery instead (see `references/wordpress.md`).
 - **Set `WP_POST_REVISIONS = 3`** in `wp-config.php` before cleaning revisions.
 - **All core WP tables must be InnoDB** with `ROW_FORMAT=DYNAMIC` and `utf8mb4`.
 - **Use `ALGORITHM=INPLACE, LOCK=NONE`** on MariaDB 10.3+ for online DDL.
@@ -483,8 +508,9 @@ SHOW ENGINE INNODB STATUS\G
 Key principles:
 
 - `innodb_buffer_pool_size` = ~70% of dedicated RAM (single highest-impact setting)
-- `query_cache_type = 1` — unlike MySQL 8.0, MariaDB still has a query cache;
-  enable it for WordPress (64–128 MB is a good starting point)
+- Query cache **exists but is disabled by default** — leave it off at scale; its
+  single global mutex doesn't scale on multi-core, write-heavy hosts. Use a
+  Redis object cache in front of WordPress instead
 - `innodb_flush_neighbors = 0` for SSD/NVMe; `1` for spinning disks
 - `aria_pagecache_buffer_size = 256M` — Aria is used for internal temp tables
 - `binlog_format = ROW` and `sync_binlog = 1` for safe replication
