@@ -2,6 +2,9 @@
 
 > Load this file for composition, compound components, controlled vs
 > uncontrolled, provider patterns, render props, and HOC guidance.
+> Examples use TypeScript; every pattern applies identically in plain JS —
+> drop the interfaces, generics, and `: Type`/`as Type` annotations, the
+> component logic itself is unchanged.
 
 ---
 
@@ -394,4 +397,4 @@ function StatusBadge({ status }: { status: 'active' | 'pending' | 'archived' }) 
   <Settings />
 </Activity>
 ```
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-03*

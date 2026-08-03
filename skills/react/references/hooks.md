@@ -2,6 +2,9 @@
 
 > Load this file for advanced hook patterns, all lesser-used hooks,
 > custom hook architecture, and common pitfall debugging.
+> Examples use TypeScript; every pattern applies identically in plain JS —
+> drop the interfaces, generics, and `: Type`/`as Type` annotations, the
+> hook logic itself is unchanged.
 
 ---
 
@@ -389,4 +392,4 @@ function usePagination(total: number, perPage = 20) {
   };
 }
 ```
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-03*

@@ -83,11 +83,10 @@ function Parent({ children }: { children: ReactNode }) {
 
 ## React Compiler — Adoption Strategy
 
-> React 19+ (also works on 17 and 18)
+> React 19+ (also works on 17 and 18 via the `target` option)
 
 The React Compiler (stable October 2025) replaces most manual memoization.
-On Vite 8, `@vitejs/plugin-react` v6 uses oxc instead of Babel — you need
-`@rolldown/plugin-babel` to run the Babel-based compiler plugin:
+It ships as a Babel plugin, so the setup path depends on your build tool:
 
 ```bash
 # Step 1: install ESLint rules first (zero risk — just lint)
@@ -98,26 +97,44 @@ npm install --save-dev eslint-plugin-react-hooks@latest
 
 # Step 2: install the compiler (still --save-exact to pin behavior)
 npm install --save-dev --save-exact babel-plugin-react-compiler@latest
-npm install --save-dev @rolldown/plugin-babel   # needed for Vite 8
+```
 
-# Step 3: configure
+**Webpack / any existing Babel pipeline (`babel-loader`) — the common case:**
+
+```js
+// babel.config.js
+module.exports = {
+  plugins: [
+    'babel-plugin-react-compiler', // must run first in the plugin list
+    // Exclude Storybook stories via the loader's own exclude/test config —
+    // they often violate the Rules of React
+  ],
+};
+```
+
+**esbuild (including `tsup`, `esbuild-loader`):** esbuild doesn't run Babel
+plugins — there's no official esbuild integration. Adopting the compiler here
+means running Babel as a separate transform step ahead of esbuild, not as an
+esbuild plugin. For most esbuild-only setups it's simpler to wait for
+first-party support than to bolt on a parallel Babel pass.
+
+**Vite (`@vitejs/plugin-react` v6+):** use the exported `reactCompilerPreset`,
+which needs `@rolldown/plugin-babel` and `@babel/core` as peer deps:
+
+```bash
+npm install --save-dev @rolldown/plugin-babel @babel/core
 ```
 
 ```ts
-// vite.config.ts (Vite 8 + @vitejs/plugin-react v6)
+// vite.config.ts
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import babel from '@rolldown/plugin-babel';
 
 export default defineConfig({
   plugins: [
-    babel({
-      plugins: ['babel-plugin-react-compiler'],
-      exclude: /node_modules/,
-      // Exclude Storybook stories — they often violate Rules of React
-      // exclude: [/node_modules/, /\.stories\.(tsx|jsx)$/],
-    }),
     react(),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
   build: {
     sourcemap: true, // Essential — compiled output is unreadable without it
@@ -126,9 +143,26 @@ export default defineConfig({
 ```
 
 ```bash
-# Next.js: built-in support
-# next.config.ts
-const nextConfig = { experimental: { reactCompiler: true } };
+# Next.js, React Router, Rspack, Rsbuild, Expo: each has a documented
+# first-party integration — use it instead of hand-rolling Babel config.
+# Next.js: next.config.ts → const nextConfig = { experimental: { reactCompiler: true } };
+```
+
+**Targeting React 17/18:** the compiler's default runtime import
+(`react/compiler-runtime`) only exists in React 19. Pass `target` so
+pre-19 projects import the separate `react-compiler-runtime` package instead:
+
+```js
+// babel.config.js
+module.exports = {
+  plugins: [
+    ['babel-plugin-react-compiler', { target: '18' }], // or '17'
+  ],
+};
+```
+
+```bash
+npm install react-compiler-runtime   # required at runtime for target 17/18
 ```
 
 **Gradual rollout:**
@@ -368,4 +402,4 @@ const filteredItems = useMemo(() => items.filter(i => i.active === active), [ite
 // 5. Unnecessary global state — causes app-wide re-renders
 // Keep state as local as possible; only lift when truly shared
 ```
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-03*

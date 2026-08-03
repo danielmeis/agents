@@ -3,6 +3,9 @@
 > React Testing Library (RTL) with Vitest (preferred) or Jest.
 > Tests should resemble how users interact with your app.
 > Query priority: accessible queries first, never query by implementation detail.
+> Examples use `.test.tsx`/TypeScript; in plain JS projects use `.test.jsx`,
+> drop the type annotations, and skip `@babel/preset-typescript` /
+> `@types/babel__core` — the queries, matchers, and assertions are identical.
 
 ---
 
@@ -403,4 +406,4 @@ expect(renderIcon('star')).toMatchSnapshot(); // ✅ stable, meaningful
 // Don't test propTypes warnings in tests — the types handle that now
 ```
 
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-03*

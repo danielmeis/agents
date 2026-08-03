@@ -290,32 +290,90 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 The React Compiler (stable 1.0, October 2025) automatically inserts memoization
 at build time. When it's active, manual `useMemo`, `useCallback`, and
 `React.memo` are largely unnecessary — the compiler handles them more accurately
-than humans do.
+than humans do. It's designed to work best with React 19 but officially supports
+React 17 and 18 too via a `target` config option — see below.
 
-**Setup on Vite 8 (2026 — `@vitejs/plugin-react` v6 dropped Babel for oxc):**
+The compiler ships as a Babel plugin (`babel-plugin-react-compiler`), so setup
+depends entirely on whether your build already runs Babel:
+
+**Webpack / any Babel-based pipeline (most common case):** add it to your
+existing `babel.config.js` — it must run first in the plugin list:
 
 ```bash
 npm install --save-dev --save-exact babel-plugin-react-compiler@latest
-npm install --save-dev @rolldown/plugin-babel
 npm install --save-dev eslint-plugin-react-hooks@latest
+```
+
+```js
+// babel.config.js
+module.exports = {
+  plugins: [
+    'babel-plugin-react-compiler', // must run first
+    // ...other plugins
+  ],
+};
+```
+
+If your webpack build already uses `babel-loader` (the typical setup for CRA-era
+and custom webpack configs), no other change is needed — the plugin runs as
+part of the existing Babel pass. There's also a community (non-Meta) webpack
+loader (`react-compiler-webpack`) for webpack configs that don't already run
+Babel, but adding the plugin to an existing `babel.config.js` is simpler when
+you have one.
+
+**esbuild (including esbuild-based tools like `tsup`, `esbuild-loader`):**
+esbuild does not run Babel plugins — its transform is a separate, non-Babel
+implementation. React Compiler has no official esbuild integration. To adopt
+it in an esbuild pipeline you must run Babel with
+`babel-plugin-react-compiler` as a **separate transform step before** esbuild
+picks up the files (e.g., a pre-build codegen step), not as an esbuild plugin.
+For most esbuild-only projects, it's simpler to wait for first-party support
+than to bolt on a parallel Babel pass.
+
+**Vite (`@vitejs/plugin-react` v6+):** use the `reactCompilerPreset` helper,
+which needs `@rolldown/plugin-babel` and `@babel/core` as peer deps:
+
+```bash
+npm install --save-dev --save-exact babel-plugin-react-compiler@latest
+npm install --save-dev @rolldown/plugin-babel @babel/core
+npm install --save-dev @types/babel__core   # TypeScript projects only
 ```
 
 ```js
 // vite.config.ts
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';          // v6+ uses oxc internally
-import babel from '@rolldown/plugin-babel';         // needed for Compiler since oxc replaced Babel in v6
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'; // v6+
+import babel from '@rolldown/plugin-babel';
 
 export default defineConfig({
   plugins: [
-    babel({
-      plugins: ['babel-plugin-react-compiler'],
-      exclude: /node_modules/,
-    }),
     react(),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
-  build: { sourcemap: true }, // essential — compiler output is unreadable without it
+  build: { sourcemap: true }, // essential — compiled output is unreadable without it
 });
+```
+
+**Next.js, React Router, Rspack, Rsbuild, Expo:** each has its own first-party
+integration doc — see `references/performance.md` for links. Don't hand-roll
+a Babel config for these; use the framework's documented option.
+
+**Targeting React 17/18 (not yet on React 19):** the compiler's default output
+imports `react/compiler-runtime`, which only exists in React 19. Projects still
+on 18.x or 17.x must pass a `target` option so the compiler imports the
+separate `react-compiler-runtime` package instead:
+
+```js
+// babel.config.js
+module.exports = {
+  plugins: [
+    ['babel-plugin-react-compiler', { target: '18' }], // or '17'
+  ],
+};
+```
+
+```bash
+npm install react-compiler-runtime   # required at runtime when target is '17' or '18'
 ```
 
 **ESLint (enable lint rules before enabling compilation):**
@@ -833,4 +891,4 @@ Load these when the task goes deeper than the summaries above:
 > Next.js App Router, RSC, and server actions: see the **nextjs** skill.
 > Deep TypeScript (generics, utility types, declaration merging): see the **typescript** skill.
 
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-03*
