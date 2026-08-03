@@ -551,4 +551,4 @@ FROM event_log e,
 WHERE e.event_type = 'user_action';
 ```
 
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-08-03*

@@ -345,4 +345,4 @@ wp search-replace 'http://old-domain.com' 'https://new-domain.com'
 # Delete all expired transients
 wp transient delete --expired --all
 ```
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-08-03*

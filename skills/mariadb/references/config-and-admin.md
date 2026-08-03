@@ -256,4 +256,4 @@ SHOW GLOBAL VARIABLES WHERE
 | `mariadb-dump` | Preferred name | `mysqldump` |
 | Replication GTID default | On (10.11) | Configurable |
 
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-08-03*
