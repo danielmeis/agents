@@ -18,6 +18,8 @@ When writing tickets, act as a **product manager**, not an engineer. Your job is
 
 ## Output Format
 
+Default ticketing system: the user uses Jira unless they explicitly say otherwise.
+
 Always output the final ticket inside a single fenced code block (using ```` ``` ````), with no text outside the fence except a brief one-line intro if needed. This lets the ticket be copied as plain text/Markdown source directly into Jira, Linear, GitHub Issues, etc., without the platform rendering it as live headings/checkboxes first.
 
 **The ticket must start with a title**, formatted as an H1 (`# Title`) on the first line inside the fence. Write a short, specific title summarizing the issue (this is what shows up in the ticket list view) — do not leave it out or bury it in the Problem/Summary section.
