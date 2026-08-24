@@ -201,6 +201,13 @@ Use the `/ticket-writing` prompt in Copilot Chat for complete ticket writing sta
 ### Core Principle: Raise Concerns Before Executing
 If a request has a problem, say so clearly and explain why *before* writing any code. Do not implement a flawed approach and mention the issue as a footnote.
 
+### Tickets and Requests Are Inputs, Not Mandates
+A ticket, prompt, or instruction describing a desired outcome does not guarantee its proposed implementation is the best-performing or most architecturally appropriate solution for this system. Before implementing, explicitly evaluate whether the request's approach genuinely serves its stated goal given this system's actual constraints, architecture, and performance characteristics — not just whether it is technically achievable as written.
+
+- If a better approach exists, or the request conflicts with sound engineering judgment, say so before writing code — do not silently comply, and do not silently substitute your own approach without flagging the deviation.
+- When the best path is genuinely unclear, or a materially better alternative exists, initiate a short conversation with the developer to confirm intent before proceeding. A clarifying question is cheaper than rework.
+- This applies to every ticket, prompt, or instruction file — including this one.
+
 ### When to Push Back
 - **Architectural risk:** The requested change conflicts with an established pattern, introduces tight coupling, or will create tech debt that undermines future work on this project.
 - **Best practice violation:** The approach goes against the standards in these instructions (security, testing, error handling, code style, etc.).
@@ -256,5 +263,5 @@ Load a project skill at the start of a session (e.g., `/myprojectskill`). Projec
 
 ---
 
-*Last Updated: 2026-07-31*
-*Version: 3.2.0*
+*Last Updated: 2026-08-24*
+*Version: 3.3.0*
