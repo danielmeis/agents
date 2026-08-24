@@ -101,7 +101,17 @@ use `git log --oneline --author` or inspect commit messages to filter by ticket 
 - Understand context and integration with existing code
 - Check for patterns, consistency, and architecture decisions
 
-### 3. Assessment Categories
+### 3. Verify Requirements Coverage Against the Ticket
+
+**CRITICAL: Don't just assess code quality in the abstract — verify the code actually does what the ticket asked for.**
+
+- If the ticket has a written spec (e.g. an Acceptance Criteria/Implementation Notes/Verification list in a tickets.md, Jira description, or linked doc), read it and check the delivered code against **every** bullet, not just the ones the user highlighted.
+- Flag anything in the spec that the diff doesn't actually address, even if unrelated to the four quality dimensions below.
+- **Distrust existing checkboxes/status markers.** If the ticket doc itself already claims an item is done (e.g. `- [x] Manual sandbox test ...`), re-verify it against the actual diff/commit — don't take a pre-existing checkmark at face value. A checkbox marked done next to prose admitting it wasn't done (e.g. "not yet exercised in this session") is itself a finding to report, not something to silently trust.
+- Re-run the project's own verification commands (`npm run check`, `npm test`, `npm run build`, etc.) against the actual commits/branch under review rather than trusting a stale "all pass" claim written at implementation time — formatting/lint state can drift after the fact (e.g. an editor auto-formatter reformatting a file post-verification, then getting committed) and only a fresh run catches it.
+- Report gaps as their own "Requirements Coverage" section (see template below), separate from the four quality dimensions — a fully covered, well-implemented requirement is still a code quality problem if it's badly written, and a beautifully written implementation is still incomplete if it skips part of the spec.
+
+### 4. Assessment Categories
 
 Evaluate code across four dimensions:
 
@@ -235,12 +245,17 @@ Evaluate code across four dimensions:
 - ⚠️ Missing `post_status` filters on post queries
 - ⚠️ Batch operations without size limits
 
-### 4. Provide Structured Feedback
+### 5. Provide Structured Feedback
 
 Format feedback clearly with ratings and actionable recommendations:
 
 ```markdown
 ## Code Review: [TICKET-NUMBER] - [Ticket Name]
+
+### 📋 Requirements Coverage
+- ✅ [Ticket requirement fully met] — [where/how]
+- ⚠️ [Ticket requirement partially met or gap found] — [what's missing, and whether it's an acceptable documented deferral or an actual miss]
+- ❌ [Ticket claims done but isn't] — [e.g. a checkbox marked `[x]` contradicted by the diff, prose, or a fresh verification-command run]
 
 ### ✅ Best Practices - [RATING]
 - [Assessment summary]
@@ -290,7 +305,7 @@ Format feedback clearly with ratings and actionable recommendations:
 - **5-6/10** - Needs improvements before production
 - **Below 5/10** - Significant issues, major rework needed
 
-### 5. Document Findings
+### 6. Document Findings
 
 - Create clear, actionable recommendations
 - Include code examples for suggested improvements

@@ -60,6 +60,15 @@ Examples of valid inputs:
 
 When writing Pull Requests, structure them to be clear for both technical and non-technical stakeholders (executives, product managers, etc.). Use plain language and focus on business value alongside technical details.
 
+## Compare Against `main`, Not the Development Journey
+
+A PR describes the diff between `main` and this branch's final state — not the story of how you got there. Do not narrate intermediate design iterations, approaches that were tried and reverted, or bugs introduced and fixed within the same branch, unless they resulted in a real behavioral difference from `main`.
+
+- Before describing something as "fixed," "changed," or "redesigned," check whether it actually differs from `main` (`git diff main -- <file>`). If a value went `A → B → A` within the branch's own history, it nets to no diff against `main` — don't describe it as if it shipped or was ever a real regression.
+- Only call something a "pre-existing bug fix" if it's verifiably present on `main` (e.g. `git show main:<path>`). If a bug was introduced and fixed entirely within this branch's own commits, it never affected anyone and isn't worth mentioning.
+- If a feature or file doesn't exist on `main` at all, there's no "before" to contrast against — describe the final design directly, not as a revision of an earlier draft.
+- Product Notes and Technical Improvements should describe what's true *now*, compared to what was true on `main` — not a chronological account of what was tried first.
+
 ## Required Sections
 
 1. **Overview** (## heading)
@@ -167,6 +176,7 @@ How we addressed the problem:
 4. Only document features/changes that exist in the actual commits
 5. Exclude internal documentation updates unless they impact developer workflow
 6. Verify technical details are actually in the final code
+7. For any "fixed"/"changed"/"redesigned" claim, confirm it's a real diff against `main` (`git diff main -- <file>` or `git show main:<path>`) — not a value that changed and changed back within this branch's own history
 
 ## Final Delivery — Save the File
 
@@ -221,4 +231,4 @@ In addition to the standard sections, add repository-specific sectionsand an **I
 
 ---
 
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-24*
