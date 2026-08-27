@@ -15,6 +15,7 @@ description: >
   Astro template checking) until the 7.1 programmatic API ships.
   React prop typing basics live in the react skill; this skill covers the
   type system itself in depth.
+disable-model-invocation: true
 ---
 
 # TypeScript Best Practices (5.9 baseline → 6.0 target)
@@ -618,4 +619,4 @@ Load these when the task goes deeper than the summaries above:
 > React-specific prop typing patterns: see the **react** skill.
 > Next.js type patterns (route params, server actions): see the **nextjs** skill.
 
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-08-26*

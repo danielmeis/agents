@@ -9,6 +9,7 @@ Machine-specific content lives in `local/` (gitignored).
 - Your root workspace directory is `~/Websites/agents` (or adjust paths to match your clone location)
 - Prompts such as `ticket-writing` assume you use Atlassian Jira for ticketing and GitHub for code hosting. Adjust as needed for your workflow.
 - There are no guarantees that these skills/prompts are the best way for you to work. You may use them as a starting point and adapt as needed.
+- Skills are preset as only user invokable, meaning the agent will not automatically invoke them without explicit user action, (`disable-model-invocation: true`, remove or set to false for auto-agent invocation).
 - **Always fully read a skill or prompt before using it — do not assume it is correct or complete**.
 
 **Upon completion reloading VSCode is needed to apply the updated skills/prompts**
@@ -190,4 +191,4 @@ The `agents` repo is identical on every machine. Only `local/` content differs:
 /ticket-writing    ← write a ticket as Project Manager, Product Owner, or QA
 /release-notes     ← format GitHub release notes
 ```
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-08-26*

@@ -12,6 +12,7 @@ description: >
   bloat, transients, object caching, or any WordPress + MariaDB performance issue.
   For deep MariaDB configuration (my.cnf, replication, index DDL), defer to the
   mariadb-best-practices skill.
+disable-model-invocation: true
 ---
 
 # WordPress 7.0+ Best Practices
@@ -668,4 +669,4 @@ Load these when the task goes deeper than the summaries above:
 > For MariaDB-level work (index DDL, `mariadb.cnf`, replication, backups),
 > use the **mariadb-best-practices** skill instead.
 
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-08-26*

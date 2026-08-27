@@ -1,6 +1,7 @@
 ---
 name: security-best-practices
 description: Security best practices for backend development, microservices, and secure coding patterns with emphasis on input validation and authentication/authorization.
+disable-model-invocation: true
 ---
 
 # Security Best Practices
@@ -103,4 +104,4 @@ Apply these security principles when developing backend services, microservices,
 - Monitor security advisories for your stack
 - Implement automated vulnerability scanning in CI/CD
 
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-08-26*

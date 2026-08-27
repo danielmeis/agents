@@ -9,6 +9,7 @@ description: >
   my.cnf/mariadb.cnf tuning, user/role management, system-versioned tables,
   or general MariaDB DBA tasks. Also trigger when the user mentions MariaDB
   performance problems, slow queries, connection limits, or database bloat.
+disable-model-invocation: true
 ---
 
 # MariaDB 10.11+ Best Practices
@@ -551,4 +552,4 @@ FROM event_log e,
 WHERE e.event_type = 'user_action';
 ```
 
-*Last Updated: 2026-08-03*
+*Last Updated: 2026-08-26*

@@ -13,6 +13,7 @@ description: >
   marked callouts for future migration planning, not as the default guidance.
   @socket.io/redis-adapter is OUT OF SCOPE — that belongs in the socket.io
   skill, not here.
+disable-model-invocation: true
 ---
 
 # Redis Best Practices
@@ -648,4 +649,4 @@ Load these when the task goes deeper than the summaries above:
 > Socket.IO's Redis adapter (`@socket.io/redis-adapter`): see the **socket.io**
 > skill, not this one.
 
-*Last Updated: 2026-07-31*
+*Last Updated: 2026-08-26*

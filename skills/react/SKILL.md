@@ -15,6 +15,7 @@ description: >
   (baseline) = React 18.3.1 and React 19+
   > React 19+ = requires React 19.0 or higher
   > React 19.2+ = requires React 19.2 or higher
+disable-model-invocation: true
 ---
 
 # React Best Practices (18.3.1 baseline · 19+ callouts)
@@ -891,4 +892,4 @@ Load these when the task goes deeper than the summaries above:
 > Next.js App Router, RSC, and server actions: see the **nextjs** skill.
 > Deep TypeScript (generics, utility types, declaration merging): see the **typescript** skill.
 
-*Last Updated: 2026-08-03*
+*Last Updated: 2026-08-26*

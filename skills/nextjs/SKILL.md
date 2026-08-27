@@ -17,6 +17,7 @@ description: >
   on an older version.
   React itself (hooks, component patterns): see the react skill.
   TypeScript type system: see the typescript skill.
+disable-model-invocation: true
 ---
 
 # Next.js 16.2+ Best Practices
@@ -831,4 +832,4 @@ Load these when the task goes deeper than the summaries above:
 > React hooks, component patterns, and TypeScript typing for React: see the
 > **react** skill. TypeScript type system itself: see the **typescript** skill.
 
-*Last Updated: 2026-07-31*
+*Last Updated: 2026-08-26*
