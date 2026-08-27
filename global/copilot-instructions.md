@@ -20,6 +20,7 @@
 - **JSDoc:** Required for public APIs and complex logic
 - **Trailing Commas:** Always use trailing (hanging) commas in multi-line arrays, objects, and function parameters/arguments. This is enforced by Prettier and ESLint (`comma-dangle`).
 - **Security:** Sanitize inputs, use HTTPS, implement authentication/authorization, handle sensitive data securely, keep dependencies updated.
+  > For detailed patterns and examples, load the `security-best-practices` skill.
 - **Documentation:** Maintain clear, up-to-date documentation for all projects, including setup instructions, code comments, and API references.
 - **CSS/HTML Class Naming:** Use BEM (Block Element Modifier) convention for all new features and components. Prefer double underscore for elements (e.g., block__element) and double hyphen for modifiers (e.g., block__element--modifier).
 - **Validation:** Include security checks, comprehensive error messages, handle edge cases, enforce code quality, follow project standards, maintain consistency.

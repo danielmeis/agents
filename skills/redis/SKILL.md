@@ -1,19 +1,24 @@
 ---
 name: redis
 description: >
-  Redis best practices for the node-redis (npm `redis`) client v5.x, Redis
-  server 7.4, connect-redis 9.x session storage, caching patterns, pub/sub,
-  transactions, and data structure design. Use this skill for any Redis
-  question: connecting, commands, key design, TTL/expiration strategy,
-  pipelining, pub/sub, Lua scripting, RedisClientPool, and Express session
-  storage via connect-redis. This skill targets the CURRENT versions in use
-  (see Version Targets below) — it deliberately does not assume the newer
-  node-redis v6 client or Redis server 8.x, since those are not yet in
-  production here. Forward-looking notes on v6/8.x are included as clearly
-  marked callouts for future migration planning, not as the default guidance.
-  @socket.io/redis-adapter is OUT OF SCOPE — that belongs in the socket.io
-  skill, not here.
-disable-model-invocation: true
+  Redis best practices for the Node.js node-redis (npm `redis`) client v5.x,
+  Redis server 7.4, connect-redis 9.x session storage, caching patterns,
+  pub/sub, transactions, and data structure design. Use this skill for
+  Node.js/TypeScript Redis work: connecting, commands, key design,
+  TTL/expiration strategy, pipelining, pub/sub, Lua scripting,
+  RedisClientPool, and Express session storage via connect-redis. Also load
+  when working in a Node.js project with "redis" or "connect-redis" in
+  package.json even if the user doesn't say "Redis" by name (e.g. "add
+  session storage," "cache this API response," "rate-limit this endpoint").
+  This skill targets the CURRENT versions in use (see Version Targets below)
+  — it deliberately does not assume the newer node-redis v6 client or Redis
+  server 8.x, since those are not yet in production here. Forward-looking
+  notes on v6/8.x are included as clearly marked callouts for future
+  migration planning, not as the default guidance. NOT for PHP Redis usage
+  (phpredis, Predis, WordPress Redis Object Cache plugins — see the
+  wordpress/mariadb skills instead), Python redis-py, or other language
+  clients. @socket.io/redis-adapter is OUT OF SCOPE — that belongs in the
+  socket.io skill, not here.
 ---
 
 # Redis Best Practices
@@ -649,4 +654,4 @@ Load these when the task goes deeper than the summaries above:
 > Socket.IO's Redis adapter (`@socket.io/redis-adapter`): see the **socket.io**
 > skill, not this one.
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*

@@ -15,7 +15,12 @@ description: >
   environment and the fix is a specific, required afterAll/afterEach order.
   @socket.io/redis-adapter is covered here (not in the redis skill) since
   its usage is Socket.IO-specific pub/sub wiring, not general Redis usage.
-disable-model-invocation: true
+  Also load this skill when working in a project with "socket.io" or
+  "socket.io-client" in package.json even if the user doesn't say
+  "Socket.IO" by name (e.g. "broadcast this update to the table," "why did
+  the client disconnect," "tests are hanging after I added a websocket
+  test"). NOT for other real-time transports (raw `ws`, Server-Sent Events,
+  Pusher, Ably, WebRTC) with no Socket.IO dependency present.
 ---
 
 # Socket.IO 4.8.x Best Practices
@@ -857,4 +862,4 @@ Load these when the task goes deeper than the summaries above:
 
 > Basic Redis client usage (non-Socket.IO): see the **redis** skill.
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*

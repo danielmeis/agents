@@ -1,7 +1,14 @@
 ---
 name: security-best-practices
-description: Security best practices for backend development, microservices, and secure coding patterns with emphasis on input validation and authentication/authorization.
-disable-model-invocation: true
+description: >
+  Use this skill when writing or reviewing code that handles user input, API
+  endpoints, authentication/session/token logic, database queries, file
+  uploads, secrets or credentials, or renders user-generated content —
+  covering input validation, auth, SQL injection, XSS, CSRF, API security,
+  rate limiting, and dependency vulnerabilities. Trigger even when the user
+  doesn't say "security" explicitly, e.g. "add a login route," "build a
+  signup form," "save this uploaded file," "call this third-party API," or
+  "review this PR for issues."
 ---
 
 # Security Best Practices
@@ -104,4 +111,4 @@ Apply these security principles when developing backend services, microservices,
 - Monitor security advisories for your stack
 - Implement automated vulnerability scanning in CI/CD
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*

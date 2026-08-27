@@ -13,9 +13,15 @@ description: >
   at a "what to know" level — see the TS7 section for why full adoption is
   premature and what breaks (typescript-eslint, ts-jest, ts-morph, Vue/Svelte/
   Astro template checking) until the 7.1 programmatic API ships.
+  Also load this skill when working in a TypeScript project (tsconfig.json
+  present or "typescript" in package.json) even if the user doesn't name
+  TypeScript explicitly (e.g. "add types to this function," "fix this type
+  error," "why won't this compile"). This skill assumes a 5.9+ baseline —
+  check the project's actual installed TypeScript version before applying
+  the 6.0 changed-defaults or 5.9-marked behavior; projects pinned below
+  5.9 may not have these defaults or language features yet.
   React prop typing basics live in the react skill; this skill covers the
   type system itself in depth.
-disable-model-invocation: true
 ---
 
 # TypeScript Best Practices (5.9 baseline → 6.0 target)
@@ -619,4 +625,4 @@ Load these when the task goes deeper than the summaries above:
 > React-specific prop typing patterns: see the **react** skill.
 > Next.js type patterns (route params, server actions): see the **nextjs** skill.
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*

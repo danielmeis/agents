@@ -11,11 +11,16 @@ description: >
   useEffectEvent, ref-as-prop, and Context-as-provider shorthand.
   Next.js App Router, RSC, and server actions are out of scope — see the
   nextjs skill. Deep TypeScript patterns belong in the typescript skill.
+  Also load this skill when working inside a React project even if the
+  user's request doesn't name React (e.g. "why doesn't this button update,"
+  "add a loading state," "this list re-renders too much") — check
+  package.json for a "react" dependency before assuming it applies. Do NOT
+  trigger for other UI frameworks (Vue, Svelte, Angular) or plain vanilla
+  JS/DOM work with no React dependency.
   Version legend used throughout this skill:
   (baseline) = React 18.3.1 and React 19+
   > React 19+ = requires React 19.0 or higher
   > React 19.2+ = requires React 19.2 or higher
-disable-model-invocation: true
 ---
 
 # React Best Practices (18.3.1 baseline · 19+ callouts)
@@ -892,4 +897,4 @@ Load these when the task goes deeper than the summaries above:
 > Next.js App Router, RSC, and server actions: see the **nextjs** skill.
 > Deep TypeScript (generics, utility types, declaration merging): see the **typescript** skill.
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*

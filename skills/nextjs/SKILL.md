@@ -15,9 +15,16 @@ description: >
   shown in this skill. Next.js 16 breaking changes are covered in depth —
   always default to 16.2+ syntax unless the user explicitly states they are
   on an older version.
+  Also load this skill when working inside a Next.js project even if the
+  user's request doesn't name the framework (e.g. "add a route," "why is
+  this page slow," "cache this fetch call") — check package.json for a
+  "next" dependency or for next.config.js/ts before assuming it applies.
+  Do NOT apply App Router/Server Components/Cache Components patterns to
+  Vite, CRA, or other non-Next.js React projects, including similarly named
+  sibling projects in this workspace that use Vite instead of Next.js — verify
+  the actual dependency first.
   React itself (hooks, component patterns): see the react skill.
   TypeScript type system: see the typescript skill.
-disable-model-invocation: true
 ---
 
 # Next.js 16.2+ Best Practices
@@ -832,4 +839,4 @@ Load these when the task goes deeper than the summaries above:
 > React hooks, component patterns, and TypeScript typing for React: see the
 > **react** skill. TypeScript type system itself: see the **typescript** skill.
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*

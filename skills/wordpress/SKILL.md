@@ -11,7 +11,7 @@ description: >
   or scaling. Also trigger for questions about slow WordPress queries, database
   bloat, transients, object caching, or any WordPress + MariaDB performance issue.
   For deep MariaDB configuration (my.cnf, replication, index DDL), defer to the
-  mariadb-best-practices skill.
+  mariadb skill.
 disable-model-invocation: true
 ---
 
@@ -667,6 +667,6 @@ Load these when the task goes deeper than the summaries above:
   process, wp-config.php hardening, and `wp-config.php` constants for large sites
 
 > For MariaDB-level work (index DDL, `mariadb.cnf`, replication, backups),
-> use the **mariadb-best-practices** skill instead.
+> use the **mariadb** skill instead.
 
 *Last Updated: 2026-08-26*

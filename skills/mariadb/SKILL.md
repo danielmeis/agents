@@ -1,15 +1,19 @@
 ---
 name: mariadb
 description: >
-  MariaDB 10.11+ best practices for schema design, security hardening, query
-  optimization, WordPress scaling, and database administration. Use this skill
-  whenever the user asks about MariaDB schema design, indexing, query tuning,
-  security configuration, WordPress database optimization (wp_options, wp_postmeta,
-  large post volumes), InnoDB/Aria engine decisions, replication, backups,
-  my.cnf/mariadb.cnf tuning, user/role management, system-versioned tables,
-  or general MariaDB DBA tasks. Also trigger when the user mentions MariaDB
-  performance problems, slow queries, connection limits, or database bloat.
-disable-model-invocation: true
+  MariaDB 10.11+ best practices for schema design, query optimization,
+  WordPress scaling, and database administration. Use this skill whenever
+  the user asks about MariaDB schema design, indexing, query tuning,
+  MariaDB security/auth hardening (users, roles, TLS, encryption at rest,
+  audit logging — not general application security), WordPress database
+  optimization (wp_options, wp_postmeta, large post volumes), InnoDB/Aria
+  engine decisions, replication, backups, my.cnf/mariadb.cnf tuning,
+  user/role management, system-versioned tables, or general MariaDB DBA
+  tasks. Also trigger when the user reports MariaDB or MySQL performance
+  problems, slow queries, connection limits, or database bloat in a
+  MariaDB/MySQL context — not for other database engines (e.g. PostgreSQL,
+  SQLite, MongoDB) and not for general app-level security (auth flows,
+  input validation, XSS/CSRF) unrelated to the database server itself.
 ---
 
 # MariaDB 10.11+ Best Practices
@@ -552,4 +556,4 @@ FROM event_log e,
 WHERE e.event_type = 'user_action';
 ```
 
-*Last Updated: 2026-08-26*
+*Last Updated: 2026-08-27*
