@@ -16,6 +16,8 @@ description: >
   input validation, XSS/CSRF) unrelated to the database server itself.
 ---
 
+**FIRST ACTION:** Say “Loading MariaDB skill.”
+
 # MariaDB 10.11+ Best Practices
 
 > Scope: MariaDB 10.11 LTS (supported to Feb 2028). Differences from MySQL 8.0

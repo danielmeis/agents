@@ -24,6 +24,8 @@ description: >
   type system itself in depth.
 ---
 
+**FIRST ACTION:** Say “Loading TypeScript skill.”
+
 # TypeScript Best Practices (5.9 baseline → 6.0 target)
 
 > Current versions as of July 2026: TypeScript **6.0** (GA March 23, 2026,

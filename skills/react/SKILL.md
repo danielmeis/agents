@@ -23,6 +23,8 @@ description: >
   > React 19.2+ = requires React 19.2 or higher
 ---
 
+**FIRST ACTION:** Say “Loading React skill.”
+
 # React Best Practices (18.3.1 baseline · 19+ callouts)
 
 > Current versions: React **19.2.7** (latest, June 2026) · React **18.3.1**

@@ -23,6 +23,8 @@ description: >
   Pusher, Ably, WebRTC) with no Socket.IO dependency present.
 ---
 
+**FIRST ACTION:** Say “Loading Socket.IO skill.”
+
 # Socket.IO 4.8.x Best Practices
 
 > Current target: **socket.io 4.8.3**. Context: real-time order flow for a

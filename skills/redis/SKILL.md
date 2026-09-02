@@ -21,6 +21,8 @@ description: >
   socket.io skill, not here.
 ---
 
+**FIRST ACTION:** Say “Loading Redis skill.”
+
 # Redis Best Practices
 
 > **Version targets for this skill — update this block when you upgrade:**

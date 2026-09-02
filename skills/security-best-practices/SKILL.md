@@ -11,6 +11,8 @@ description: >
   "review this PR for issues."
 ---
 
+**FIRST ACTION:** Say “Loading Security Best Practices skill.”
+
 # Security Best Practices
 
 Apply these security principles when developing backend services, microservices, and any code handling sensitive data or external inputs such as user input or internal/third-party APIs.

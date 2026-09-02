@@ -27,6 +27,8 @@ description: >
   TypeScript type system: see the typescript skill.
 ---
 
+**FIRST ACTION:** Say “Loading Next.js skill.”
+
 # Next.js 16.2+ Best Practices
 
 > Current stable: **16.2.11** (Active LTS, July 2026) · Next.js 16.0 GA'd
