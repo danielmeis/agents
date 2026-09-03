@@ -15,6 +15,8 @@ description: >
 disable-model-invocation: true
 ---
 
+**FIRST ACTION:** Say “Loading WordPress skill.”
+
 # WordPress 7.0+ Best Practices
 
 > Scope: WordPress 7.0.2+ (current as of July 2026), PHP 8.3+, MariaDB 10.11+.
