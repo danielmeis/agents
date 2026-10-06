@@ -2,6 +2,7 @@
 name: pull-request
 description: "Write a pull request following team standards. Reviews actual git commits and saves the PR as a file. Use when asked to write a PR, pull request, or document code changes for a ticket."
 argument-hint: "[ticket-number] — e.g. Prod-12345"
+disable-model-invocation: true
 ---
 
 # Pull Request Guidelines
@@ -231,4 +232,4 @@ In addition to the standard sections, add repository-specific sectionsand an **I
 
 ---
 
-*Last Updated: 2026-08-24*
+*Last Updated: 2026-10-05*

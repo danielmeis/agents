@@ -2,6 +2,7 @@
 name: release-notes
 description: "Format GitHub-generated release notes into the standard release format with Jira/atlassian ticket links. Use when asked to format or write release notes for a new version or tag. Expects a subdomain to be provided for the Jira ticketing base URL."
 argument-hint: "The argument after the command name is the Jira subdomain (or a full Atlassian URL from which only the subdomain will be extracted)."
+disable-model-invocation: true
 ---
 
 # Release Notes Guidelines
@@ -117,7 +118,9 @@ Before the **Full Changelog** URL, add the following sections:
 #### Attempt to place items into the appropriate sections
 Attempt to place items into the appropriate sections based on their description keywords. Place items containing "Fix", "Fixes", or "Patch" in Bug Fix. Place dependency bumps or automated items in Dev / Build Tooling. If unsure, leave them in the Enhancement section for manual review.
 
-**Dev / Build Tooling** is for dependency upgrades, automated bumps (e.g. Dependabot), and removal of dev tooling — changes that were not authored directly by an engineer. For these items, replace the `by @[engineer]` attribution with `(automated)` since no engineer directly authored the change.
+**Dev / Build Tooling** is for dependency upgrades, automated bumps (e.g. Dependabot), and removal of dev tooling — changes that were not authored directly by an engineer (no `by @[engineer]` attribution in the GitHub output, e.g. Dependabot-authored PRs). For these items, replace the missing attribution with `(automated)`.
+
+**Only include the `## Dev / Build Tooling` heading if at least one item actually qualifies for it.** If every item in the release has a real `by @[engineer]` attribution, omit the heading entirely rather than leaving it empty.
 
 **Example:**
 ```
@@ -183,5 +186,6 @@ Keep the **Full Changelog** URL unchanged at the end of the release notes. Do no
 - Reordering bug fixes is done manually after initial formatting
 - The Full Changelog URL should never be modified
 - Each item should be on its own line
+- Omit the `## Dev / Build Tooling` heading entirely when no automated/dependency items are present
 
-*Last Updated: 2026-07-28*
+*Last Updated: 2026-10-05*

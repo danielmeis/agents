@@ -2,6 +2,7 @@
 name: code-review
 description: "Run a comprehensive code review on uncommitted work or specific commits. Use when asked to review code, check quality, security, maintainability, or functionality."
 argument-hint: "Ticket number and small description of the work being reviewed (e.g., PROD-12345 - Mock Setup Feature Request [uncommitted | last N commits | startHash..endHash]). Add context as needed."
+disable-model-invocation: true
 ---
 
 # Code Review Guidelines
@@ -369,4 +370,4 @@ Once the review is complete:
 
 ---
 
-*Last Updated: 2026-04-30*
+*Last Updated: 2026-10-05*

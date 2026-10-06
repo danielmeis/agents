@@ -2,6 +2,7 @@
 name: ticket-writing
 description: "Write a product ticket acting as a PM. Use when asked to write a ticket, issue, or task for a project management tool like Jira or Linear."
 argument-hint: "Describe the bug or enhancement in your own words — the more context you provide, the better the ticket."
+disable-model-invocation: true
 ---
 
 # Ticket Writing Guidelines
@@ -122,4 +123,4 @@ Always use a tag ref, not a branch name or commit SHA — branch refs become dea
 - **Flag uncertainty explicitly.** If a criterion depends on third-party behavior, note that verification is needed.
 - **Avoid vague language.** "Works correctly" is not a criterion. "Returns results ordered by ID descending when two posts share the same timestamp" is.
 
-*Last Updated: 2026-07-29*
+*Last Updated: 2026-10-05*
